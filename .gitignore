@@ -27,3 +27,4 @@ key-build*
 TAGS*~
 git-src
 .git-credentials
+/*.log
