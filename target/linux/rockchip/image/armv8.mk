@@ -14,7 +14,7 @@ TARGET_DEVICES += embedfire_doornet1
 
 define Device/embedfire_doornet2
   DEVICE_VENDOR := EmbedFire
-  DEVICE_MODEL := DoorNet2
+  DEVICE_MODEL := DoorNet2 1GB
   SOC := rk3399
   UBOOT_DEVICE_NAME := doornet2-rk3399
   IMAGE/sysupgrade.img.gz := boot-common | boot-script nanopi-r4s | pine64-bin | gzip | append-metadata
@@ -60,6 +60,16 @@ define Device/friendlyarm_nanopi-r4s
   DEVICE_PACKAGES := kmod-r8168 -urngd
 endef
 TARGET_DEVICES += friendlyarm_nanopi-r4s
+
+define Device/friendlyarm_nanopi-r4se
+  DEVICE_VENDOR := FriendlyARM
+  DEVICE_MODEL := NanoPi R4SE
+  SOC := rk3399
+  UBOOT_DEVICE_NAME := nanopi-r4se-rk3399
+  IMAGE/sysupgrade.img.gz := boot-common | boot-script nanopi-r4s | pine64-bin | gzip | append-metadata
+  DEVICE_PACKAGES := kmod-r8168 -urngd
+endef
+TARGET_DEVICES += friendlyarm_nanopi-r4se
 
 define Device/pine64_rockpro64
   DEVICE_VENDOR := Pine64
