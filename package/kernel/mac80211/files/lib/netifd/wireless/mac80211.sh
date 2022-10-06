@@ -420,9 +420,9 @@ mac80211_hostapd_setup_base() {
 			he_spr_non_srg_obss_pd_max_offset:1 \
 			he_bss_color
 
-		he_phy_cap=$(iw phy "$phy" info | awk -F "[()]" '/HE PHY Capabilities/ { print $2 }' | head -1)
+		he_phy_cap=$(iw phy "$phy" info | sed -n '/HE Iftypes: AP/,$p' | awk -F "[()]" '/HE PHY Capabilities/ { print $2 }' | head -1)
 		he_phy_cap=${he_phy_cap:2}
-		he_mac_cap=$(iw phy "$phy" info | awk -F "[()]" '/HE MAC Capabilities/ { print $2 }' | head -1)
+		he_mac_cap=$(iw phy "$phy" info | sed -n '/HE Iftypes: AP/,$p' | awk -F "[()]" '/HE MAC Capabilities/ { print $2 }' | head -1)
 		he_mac_cap=${he_mac_cap:2}
 
 		append base_cfg "ieee80211ax=1" "$N"
@@ -739,7 +739,8 @@ mac80211_prepare_vif() {
 		;;
 	esac
 
-	if [ "$mode" != "ap" ]; then
+	# We do not set hostpad macaddr if it is 00:00:00:00:00:00
+	if [ "$mode" != "ap" ] && [ "$macaddr" != "00:00:00:00:00:00" ]; then
 		# ALL ap functionality will be passed to hostapd
 		# All interfaces must have unique mac addresses
 		# which can either be explicitly set in the device
