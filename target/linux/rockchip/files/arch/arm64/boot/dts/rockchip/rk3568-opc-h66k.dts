@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+// Copyright (c) 2022 AmadeusGhost <amadeus@jmu.edu.cn>
 
 /dts-v1/;
 
 #include "rk3568-hinlink-opc.dtsi"
+#include "rk3568-pro-opp.dtsi"
 
 / {
 	model = "HINLINK OPC-H66K Board";
