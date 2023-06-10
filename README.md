@@ -11,6 +11,9 @@
 <a href ="https://item.taobao.com/item.htm?spm=a230r.1.14.11.4bb55247rdHEAP&id=702787603594&ns=1&abbucket=17#detail
 "><img src="https://github.com/coolsnowwolf/lede/blob/master/doc/h68k.jpg?raw=true" width=600  /></a>
 
+4. Rockchip RK3588 预编译固件发布 Release 下载更新地址 (包括 R6S/R6C/NanoPC-T6 )：<https://github.com/coolsnowwolf/lede/releases/tag/20230609>
+
+
 ## 注意
 
 1. **不要用 root 用户进行编译**
@@ -117,5 +120,4 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
    echo 'export PATH="/usr/local/opt/make/libexec/gnubin:$PATH"' >> ~/.bashrc
    ```
 
-<<<<<<< HEAD
 5. 重新加载一下 shell 启动文件 `source ~/.bashrc`，然后输入 `bash` 进入 bash shell，就可以和 Linux 一样正常编译了
