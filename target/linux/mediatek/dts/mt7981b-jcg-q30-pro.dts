@@ -7,16 +7,16 @@
 #include "mt7981.dtsi"
 
 / {
-	model = "H3C Magic NX30 Pro";
-	compatible = "h3c,magic-nx30-pro", "mediatek,mt7981";
+	model = "JCG Q30 PRO";
+	compatible = "jcg,q30-pro", "mediatek,mt7981";
 
 	aliases {
 		serial0 = &uart0;
-
-		led-boot = &led_status_green;
+		label-mac-device = &gmac0;
+		led-boot = &led_status_red;
 		led-failsafe = &led_status_red;
-		led-running = &led_status_green;
-		led-upgrade = &led_status_red;
+		led-running = &led_status_blue;
+		led-upgrade = &led_status_blue;
 	};
 
 	chosen {
@@ -35,25 +35,19 @@
 			linux,code = <KEY_RESTART>;
 			gpios = <&pio 1 GPIO_ACTIVE_LOW>;
 		};
-
-		wps {
-			label = "wps";
-			linux,code = <KEY_WPS_BUTTON>;
-			gpios = <&pio 0 GPIO_ACTIVE_LOW>;
-		};
 	};
 
 	leds {
 		compatible = "gpio-leds";
 
-		led_status_green: green {
-			label = "green:status";
-			gpios = <&pio 4 GPIO_ACTIVE_LOW>;
-		};
-
 		led_status_red: red {
 			label = "red:status";
-			gpios = <&pio 5 GPIO_ACTIVE_LOW>;
+			gpios = <&pio 8 GPIO_ACTIVE_HIGH>;
+		};
+
+		led_status_blue: blue {
+			label = "blue:status";
+			gpios = <&pio 13 GPIO_ACTIVE_LOW>;
 		};
 	};
 };
@@ -66,18 +60,14 @@
 		reg = <0>;
 		phy-mode = "2500base-x";
 
+		nvmem-cells = <&macaddr_lan>;
+		nvmem-cell-names = "mac-address";
+
 		fixed-link {
 			speed = <2500>;
 			full-duplex;
 			pause;
 		};
-	};
-
-	gmac1: mac@1 {
-		compatible = "mediatek,eth-mac";
-		reg = <1>;
-		phy-mode = "gmii";
-		phy-handle = <&int_gbe_phy>;
 	};
 };
 
@@ -118,7 +108,7 @@
 			#size-cells = <1>;
 
 			partition@0 {
-				label = "BL2";
+				label = "bl2";
 				reg = <0x0000000 0x0100000>;
 				read-only;
 			};
@@ -135,40 +125,14 @@
 			};
 
 			partition@380000 {
-				label = "FIP";
+				label = "fip";
 				reg = <0x0380000 0x0200000>;
 				read-only;
 			};
 
 			partition@580000 {
 				label = "ubi";
-				reg = <0x0580000 0x4000000>;
-			};
-
-			/* yaffs partition */
-			partition@4580000 {
-				label = "pdt_data";
-				reg = <0x4580000 0x0600000>;
-				read-only;
-			};
-
-			/* yaffs partition */
-			partition@4b80000 {
-				label = "pdt_data_1";
-				reg = <0x4b80000 0x0600000>;
-				read-only;
-			};
-
-			partition@5180000 {
-				label = "exp";
-				reg = <0x5180000 0x0100000>;
-				read-only;
-			};
-
-			partition@5280000 {
-				label = "plugin";
-				reg = <0x5280000 0x2580000>;
-				read-only;
+				reg = <0x0580000 0x7000000>;
 			};
 		};
 	};
@@ -181,16 +145,23 @@
 
 		port@0 {
 			reg = <0>;
-			label = "lan1";
+			label = "wan";
+			nvmem-cells = <&macaddr_wan>;
+			nvmem-cell-names = "mac-address";
 		};
 
 		port@1 {
 			reg = <1>;
-			label = "lan2";
+			label = "lan1";
 		};
 
 		port@2 {
 			reg = <2>;
+			label = "lan2";
+		};
+
+		port@3 {
+			reg = <3>;
 			label = "lan3";
 		};
 
@@ -242,4 +213,18 @@
 	status = "okay";
 
 	mediatek,mtd-eeprom = <&factory 0x0>;
+};
+
+&factory {
+	compatible = "nvmem-cells";
+	#address-cells = <1>;
+	#size-cells = <1>;
+
+	macaddr_wan: macaddr@a0024 {
+		reg = <0xa0024 0x6>;
+	};
+
+	macaddr_lan: macaddr@a002a {
+		reg = <0xa002a 0x6>;
+	};
 };
