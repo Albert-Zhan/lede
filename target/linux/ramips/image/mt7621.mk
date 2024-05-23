@@ -731,9 +731,9 @@ define Device/glinet_gl-mt1300
   IMAGE_SIZE := 32448k
   DEVICE_VENDOR := GL.iNet
   DEVICE_MODEL := GL-MT1300
-  DEVICE_PACKAGES := kmod-mt7615d_dbdc kmod-usb3 -luci-newapi -wpad-openssl
+  DEVICE_PACKAGES := kmod-mt7615-firmware kmod-usb3 -uboot-envtools
 endef
-TARGET_DEVICES += glinet_gl-mt1300
+#TARGET_DEVICES += glinet_gl-mt1300
 
 define Device/gnubee_gb-pc1
   $(Device/dsa-migration)
@@ -810,6 +810,18 @@ define Device/ht-jsh_0211
   DEVICE_PACKAGES := kmod-mt7603
 endef
 TARGET_DEVICES += ht-jsh_0211
+
+define Device/huasifei_ws1208v2
+  $(Device/dsa-migration)
+  $(Device/uimage-lzma-loader)
+  IMAGE_SIZE := 32448k
+  DEVICE_VENDOR := Huasifei
+  DEVICE_MODEL := WS1208V2
+  DEVICE_PACKAGES := kmod-ata-ahci kmod-mt7603 kmod-mt76x2 kmod-sdhci-mt7620 \
+	kmod-usb3 kmod-usb-net-cdc-mbim kmod-usb-net-qmi-wwan \
+	kmod-usb-serial-option luci-proto-qmi
+endef
+TARGET_DEVICES += huasifei_ws1208v2
 
 define Device/iodata_wn-ax1167gr
   $(Device/dsa-migration)
@@ -1090,10 +1102,11 @@ TARGET_DEVICES += linksys_re6500
 
 define Device/mediatek_ap-mt7621a-v60
   $(Device/dsa-migration)
-  IMAGE_SIZE := 7872k
+  $(Device/uimage-lzma-loader)
+  IMAGE_SIZE := 32448k
   DEVICE_VENDOR := Mediatek
   DEVICE_MODEL := AP-MT7621A-V60 EVB
-  DEVICE_PACKAGES := kmod-usb3 kmod-sdhci-mt7620 kmod-sound-mt7620 -wpad-openssl
+  DEVICE_PACKAGES := kmod-usb3 kmod-i2c-gpio kmod-rtc-pcf8563 kmod-sdhci-mt7620 kmod-sound-mt7620 kmod-mt76x2
 endef
 TARGET_DEVICES += mediatek_ap-mt7621a-v60
 
@@ -1364,7 +1377,7 @@ define Device/phicomm_k2p
   DEVICE_MODEL := K2P
   SUPPORTED_DEVICES += k2p
   DEVICE_COMPAT_VERSION := 1.1
-  DEVICE_PACKAGES := -luci-newapi -wpad-openssl kmod-mt7615d_dbdc wireless-tools
+  DEVICE_PACKAGES := -wpad-openssl kmod-mt7615d_dbdc wireless-tools luci-oldapi
 endef
 TARGET_DEVICES += phicomm_k2p
 
